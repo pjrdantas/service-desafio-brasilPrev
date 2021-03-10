@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'service-desadio-brasilPrev' is invalid and this project uses 'br.com.brasilPrev' instead.
+* The original package name 'service-desadio-brasilPrev' is invalid and this project uses 'br.com.brasil.prev' instead.
 
 # Getting Started
 
