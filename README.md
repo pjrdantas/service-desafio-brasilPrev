@@ -27,6 +27,33 @@ SHOW WARNINGS;
 USE `db_desafio_brasilprev` ;
 
 -- -----------------------------------------------------
+-- Table `db_desafio_brasilprev`.`tb_address`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `db_desafio_brasilprev`.`tb_address` ;
+
+SHOW WARNINGS;
+CREATE TABLE IF NOT EXISTS `db_desafio_brasilprev`.`tb_address` (
+  `id` INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+  `tb_address_public_place` VARCHAR(100) NOT NULL,
+  `tb_address_number` DECIMAL(9,0) NOT NULL,
+  `tb_address_complement` VARCHAR(100) NULL DEFAULT NULL,
+  `tb_address_district` VARCHAR(100) NOT NULL,
+  `tb_address_city` VARCHAR(45) NOT NULL,
+  `tb_address_state` VARCHAR(45) NOT NULL,
+  `tb_address_zip` VARCHAR(45) NOT NULL,
+  `tb_address_type` VARCHAR(45) NOT NULL,
+  `tb_address_cpf` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8;
+
+SHOW WARNINGS;
+CREATE UNIQUE INDEX `id_UNIQUE` ON `db_desafio_brasilprev`.`tb_address` (`id` ASC) VISIBLE;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
 -- Table `db_desafio_brasilprev`.`tb_customer`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `db_desafio_brasilprev`.`tb_customer` ;
@@ -38,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `db_desafio_brasilprev`.`tb_customer` (
   `tb_customer_cpf` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 SHOW WARNINGS;
@@ -45,32 +73,6 @@ CREATE UNIQUE INDEX `idtb_cliente_UNIQUE` ON `db_desafio_brasilprev`.`tb_custome
 
 SHOW WARNINGS;
 
--- -----------------------------------------------------
--- Table `db_desafio_brasilprev`.`tb_ address`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `db_desafio_brasilprev`.`tb_ address` ;
-
-SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `db_desafio_brasilprev`.`tb_ address` (
-  `id` INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `tb_address_street` VARCHAR(100) NOT NULL,
-  `tb_address_number` DECIMAL(9,0) NOT NULL,
-  `tb_address_full` VARCHAR(100) NULL DEFAULT NULL,
-  `tb_address_neighborhood` VARCHAR(100) NOT NULL,
-  `tb_address_city` VARCHAR(45) NOT NULL,
-  `tb_endereco_state` VARCHAR(45) NOT NULL,
-  `tb_endereco_zip` VARCHAR(45) NOT NULL,
-  `tb_endereco_type` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-SHOW WARNINGS;
-CREATE UNIQUE INDEX `id_UNIQUE` ON `db_desafio_brasilprev`.`tb_ address` (`id` ASC) VISIBLE;
-
-SHOW WARNINGS;
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
