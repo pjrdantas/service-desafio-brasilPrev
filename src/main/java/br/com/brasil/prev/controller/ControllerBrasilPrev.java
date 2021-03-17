@@ -32,13 +32,13 @@ public class ControllerBrasilPrev {
 	
 	/**
 	 * INCLUIR REGISTRO
-	 * @param clienteDto
+	 * @param customer
 	 * @return
 	 * @throws Exception
 	 * @throws Throwable
 	 */
 	@RequestMapping(value="/customer",method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody Response add(@RequestBody Customer customer)  throws Exception, Throwable {      
+	public @ResponseBody Response add(@RequestBody SelectCustomer customer)  throws Exception, Throwable {      
 
 		log.info("Controller_brasilPrev.salvar--------> INCLUINDO REGISTRO!");
 				
@@ -92,19 +92,19 @@ public class ControllerBrasilPrev {
 	}
 
 	/**
-	 * CONSULTAR O CLIENTE POR ID
-	 * @param idCustomer
+	 * CONSULTAR O CLIENTE POR CPF
+	 * @param cpf
 	 * @return
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	@RequestMapping(value="/customer/{id}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody SelectCustomer selectById(@PathVariable("id") String idCustomer)  throws Exception, Throwable {
+	@RequestMapping(value="/customer/{cpf}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody SelectCustomer selectById(@PathVariable("cpf") String cpf)  throws Exception, Throwable {
 		
 		log.info("Controller_brasilPrev.selectById--------> CONSULTAR CLIENTE!");
 		try {
-			int id = Integer.parseInt(idCustomer);			
-			return this.service_brasilPrev.getCustomerById(id);
+			
+			return this.service_brasilPrev.getCustomerByCpf(cpf);
 		} catch (Exception e) {
 			log.error("Controller_brasilPrev.selectById----------------- ERRO AO BUSCAR CLIENTE POR ID: " + e.toString());
 		}

@@ -14,7 +14,7 @@ public interface Service_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void addACustomer(Customer customer)   throws Exception, Throwable;
+	void addACustomer(SelectCustomer customer)   throws Exception, Throwable;
 	
 	/**
 	 * METODO PARA ATUALIZAÇÃO DO REGISTRO
@@ -39,7 +39,7 @@ public interface Service_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	SelectCustomer getCustomerById(int id) throws Exception, Throwable;
+	SelectCustomer getCustomerByCpf(String cpf) throws Exception, Throwable;
 	
 	
 	void deleteCustomer(String cpf) throws Exception, Throwable;

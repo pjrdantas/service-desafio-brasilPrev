@@ -10,5 +10,5 @@ br\com\brasil\prev\entity\TbCustomer.class
 br\com\brasil\prev\controller\ControllerBrasilPrev.class
 br\com\brasil\prev\dto\Customer.class
 br\com\brasil\prev\service\impl\ServiceImpl_brasilPrev.class
+br\com\brasil\prev\dto\SelectCustomer.class
 br\com\brasil\prev\entity\TbAddress.class
-br\com\brasil\prev\dto\UpdateCustomer.class
