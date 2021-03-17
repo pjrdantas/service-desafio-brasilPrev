@@ -42,11 +42,11 @@ public class TbAddress {
 	@Column(name="tb_address_state", nullable=false, length=45)
 	private String tbAddressState;
 
-	@Column(name="tb_address_type", nullable=false, length=45)
-	private String tbAddressSType;
-
 	@Column(name="tb_address_zip", nullable=false, length=45)
 	private String tbAddressZip;
+	
+	@Column(name="tb_address_type", nullable=false, length=45)
+	private String tbAddressSType;
 
 	public TbAddress() {
 	}

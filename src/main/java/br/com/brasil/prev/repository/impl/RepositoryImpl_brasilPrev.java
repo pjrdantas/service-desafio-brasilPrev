@@ -4,6 +4,7 @@ package br.com.brasil.prev.repository.impl;
 
 import java.util.List;
 
+import org.aspectj.weaver.patterns.ParserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import br.com.brasil.prev.dto.Customer;
-import br.com.brasil.prev.dto.SaveAddress;
 import br.com.brasil.prev.dto.SelectCustomer;
 import br.com.brasil.prev.dto.UpdateAddress;
 import br.com.brasil.prev.repository.Repository_brasilPrev;
@@ -31,7 +30,7 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Override
-	public void addCustomer(Customer customer) throws Exception, Throwable {
+	public void addCustomer(SelectCustomer customer) throws Exception, Throwable {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append("  INSERT INTO ");
@@ -41,7 +40,7 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 		sql.append(" ,tb_customer_name) ");
 		sql.append("  values (:id, :tbCustomerCpf, :tbCustomerName)");
 		
-		SqlParameterSource params = new MapSqlParameterSource()
+		MapSqlParameterSource params = new MapSqlParameterSource()
 				.addValue("id", customer.getId())
 				.addValue("tbCustomerCpf", customer.getCpf())
 				.addValue("tbCustomerName", customer.getName());
@@ -55,40 +54,40 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	}
 
 	@Override
-	public void addAddress(SaveAddress saveAddress) throws Exception, Throwable {
+	public void addAddress(SelectCustomer customer) throws Exception, Throwable {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append("  INSERT INTO ");
 		sql.append("  tb_address (");
 		sql.append("  id");
-		sql.append(" ,tb_address_city");
-		sql.append(" ,tb_address_complemen");
-		sql.append(" ,tb_address_district");
-		sql.append(" ,tb_address_number");
+		sql.append(" ,tb_address_cpf ");
 		sql.append(" ,tb_address_public_place");
-		sql.append(" ,tb_endereco_state");
-		sql.append(" ,tb_endereco_type");
-		sql.append(" ,tb_endereco_zip) ");
-		sql.append("  values (:id, :tbAddressCity, :tbAddressComplement, :tbAddressCpf, "
-				+ ":tbAddressDistrict, :tbAddressNumber, :tbAddressPublicPlace, :tbEnderecoState, "
-				+ ":tbEnderecoType, :tbEnderecoZip )");
+		sql.append(" ,tb_address_complement");
+		sql.append(" ,tb_address_number");
+		sql.append(" ,tb_address_district");
+		sql.append(" ,tb_address_city");
+		sql.append(" ,tb_address_state");
+		sql.append(" ,tb_address_zip");
+		sql.append(" ,tb_address_type) ");
+		sql.append("  values (:id, :tbAddressCpf,  :tbAddressPublicPlace,  :tbAddressComplement, :tbAddressNumber, :tbAddressDistrict, :tbAddressCity, :tbAddressState,  :tbAddressZip, :tbAddressType )");
+				
 		
-		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("id", saveAddress.getId())
-				.addValue("tbAddressCity", saveAddress.getCity())
-				.addValue("tbAddressComplement", saveAddress.getComplement())
-				.addValue("tbAddressCpf", saveAddress.getCpf())
-				.addValue("tbAddressDistrict", saveAddress.getDistrict())
-				.addValue("tbAddressNumber", saveAddress.getNumber())
-				.addValue("tbAddressPublicPlace", saveAddress.getPublicPlace())
-				.addValue("tbEnderecoState", saveAddress.getCity())
-				.addValue("tbEnderecoType", saveAddress.getState())
-				.addValue("tbEnderecoZip", saveAddress.getZipCode());
+		MapSqlParameterSource params = new MapSqlParameterSource()
+				.addValue("id", customer.getId())
+				.addValue("tbAddressCpf", customer.getCpf())
+				.addValue("tbAddressPublicPlace", customer.getAddressPublicPlace())
+				.addValue("tbAddressComplement", customer.getAddressComplement())
+				.addValue("tbAddressNumber", customer.getAddressNumber())
+				.addValue("tbAddressDistrict", customer.getAddressDistrict())
+				.addValue("tbAddressCity", customer.getAddressCity())				
+				.addValue("tbAddressState", customer.getAddressState())
+				.addValue("tbAddressZip", customer.getAddressZip())
+				.addValue("tbAddressType", customer.getAddressType());
 		try {
 			jdbcTemplate.update(sql.toString(), params);
-			log.info("RepositoryImpl_brasilPrev.saveAddress--------> ENDEREÇO INCLUIDO COM SUCESSO!");
+			log.info("RepositoryImpl_brasilPrev.addAddress--------> ENDEREÇO INCLUIDO COM SUCESSO!");
 		} catch (Exception e) {
-		    log.error("RepositoryImpl_brasilPrev.saveAddress--------> ERRO NA INCLUSÃO DO ENDEREÇO: " + e.toString());
+		    log.error("RepositoryImpl_brasilPrev.addAddress--------> ERRO NA INCLUSÃO DO ENDEREÇO: " + e.toString());
 		}
 	}
 
@@ -165,36 +164,38 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 * CONSULTA CLIENTE POR CPF
+	 * @param cpf
 	 * @return
 	 * @throws Exception
 	 * @throws Throwable
 	 */
 	@Override
-	public SelectCustomer getCustomerById(int id) throws Exception, Throwable {
+	public SelectCustomer getCustomerByCpf(String cpf) throws Exception, Throwable {
 		
 		try {
 			StringBuilder sql = new StringBuilder(sqlSelectPrincipal);
-			sql.append(" WHERE id = :id ");
-			SqlParameterSource params = new MapSqlParameterSource().addValue("id", id);
-			log.info("RepositoryImpl_brasilPrev.getCustomerById--------> CLIENTE LOCALIZADO COM SUCESSO!!!");
+			sql.append(" WHERE tb_customer_cpf = :tbCustomerCpf ");
+			SqlParameterSource params = new MapSqlParameterSource().addValue("tbCustomerCpf", cpf);
+			log.info("RepositoryImpl_brasilPrev.getCustomerByCpf--------> CLIENTE LOCALIZADO COM SUCESSO!!!");
 			return devolveObjeto(sql, params);
-		} catch (Exception e) {
-			log.error("RepositoryImpl_brasilPrev.getCustomerById----------------- ERRO AO TENTAR LOCALIZAR O CLIENTE: " + e.toString());
+		} catch (ParserException e) {
+			log.error("RepositoryImpl_brasilPrev.getCustomerByCpf----------------- ERRO AO TENTAR LOCALIZAR O CLIENTE: " + e.toString());
 		}
 		return null;
 	}
 
-	
+	/**
+	 * EXCLUI CLIENTE POR CPF
+	 */
 	@Override
 	public void deleteCustomer(String cpf) throws Exception, Throwable {
 
 		StringBuilder sql1 = new StringBuilder();
 		sql1.append(" DELETE FROM ");
 		sql1.append(" tb_customer ");
-		sql1.append(" WHERE cpf = :cpf");
-		SqlParameterSource params = new MapSqlParameterSource().addValue("cpf", cpf);
+		sql1.append(" WHERE tb_customer_cpf = :tbCustomerCpf");
+		SqlParameterSource params = new MapSqlParameterSource().addValue("tbCustomerCpf", cpf);
 		try {
 			jdbcTemplate.update(sql1.toString(), params);
 			log.info("RepositoryImpl_brasilPrev.deleteCustomer--------> USUARIO EXCLUIDO COM SUCESSO!!!");
@@ -206,8 +207,8 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 		StringBuilder sql2 = new StringBuilder();		
 		sql2.append(" DELETE FROM ");
 		sql2.append(" tb_address ");
-		sql2.append(" WHERE cpf = :cpf");
-		SqlParameterSource param = new MapSqlParameterSource().addValue("cpf", cpf);
+		sql2.append(" WHERE tb_address_cpf = :tbAddressCpf");
+		SqlParameterSource param = new MapSqlParameterSource().addValue("tbAddressCpf", cpf);
 		try {
 			jdbcTemplate.update(sql2.toString(), param);
 			log.info("RepositoryImpl_brasilPrev.deleteCustomer--------> ENDEREÇO(S) EXCLUIDO COM SUCESSO!!!");

@@ -2,9 +2,7 @@ package br.com.brasil.prev.repository;
 
 import java.util.List;
 
-
 import br.com.brasil.prev.dto.Customer;
-import br.com.brasil.prev.dto.SaveAddress;
 import br.com.brasil.prev.dto.SelectCustomer;
 import br.com.brasil.prev.dto.UpdateAddress;
 
@@ -16,7 +14,7 @@ public interface Repository_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void addCustomer(Customer customer)  throws Exception, Throwable;
+	void addCustomer(SelectCustomer customer)  throws Exception, Throwable;
 	
 	/**
 	 * INCLUIR ENDEREÇO
@@ -24,7 +22,7 @@ public interface Repository_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void addAddress(SaveAddress saveAddress) throws Exception, Throwable;
+	void addAddress(SelectCustomer customer) throws Exception, Throwable;
 	
 	/**
 	 * ATUALIZA CLIENTE
@@ -42,10 +40,29 @@ public interface Repository_brasilPrev {
 	 */
 	void updateAddress(UpdateAddress updateAddress)  throws Exception, Throwable;
 	
+	/**
+	 * LISTA TODOS OS CLIENTES
+	 * @return
+	 * @throws Exception
+	 * @throws Throwable
+	 */
 	List<SelectCustomer> getAllCustomer()  throws Exception, Throwable;
 	
-	SelectCustomer getCustomerById(int id)  throws Exception, Throwable;
+	/**
+	 * CONSULTA CLIENTE POR CPF
+	 * @param cpf
+	 * @return
+	 * @throws Exception
+	 * @throws Throwable
+	 */
+	SelectCustomer getCustomerByCpf(String cpf)  throws Exception, Throwable;
 	
+	/**
+	 * EXCLUSÃO DE CLIENTE POR CPF
+	 * @param cpf
+	 * @throws Exception
+	 * @throws Throwable
+	 */
 	void deleteCustomer(String cpf) throws Exception, Throwable;
 
 }
