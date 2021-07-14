@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.brasil.prev.dto.Customer;
-import br.com.brasil.prev.dto.Response;
-import br.com.brasil.prev.dto.SelectCustomer;
+import br.com.brasil.prev.dto.CustomerDto;
+import br.com.brasil.prev.dto.ResponseDto;
+import br.com.brasil.prev.dto.SelectCustomerDto;
 import br.com.brasil.prev.service.Service_brasilPrev;
 
 @Controller
@@ -38,38 +38,38 @@ public class ControllerBrasilPrev {
 	 * @throws Throwable
 	 */
 	@RequestMapping(value="/customer",method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody Response add(@RequestBody SelectCustomer customer)  throws Exception, Throwable {      
+	public @ResponseBody ResponseDto add(@RequestBody SelectCustomerDto customer)  throws Exception, Throwable {      
 
 		log.info("Controller_brasilPrev.salvar--------> INCLUINDO REGISTRO!");
 				
 		try {			 
 			this.service_brasilPrev.addACustomer(customer);
-			return new Response(1,"Registro salvo com sucesso!"); 
+			return new ResponseDto(1,"Registro salvo com sucesso!"); 
 		}catch(Exception e) {
 			log.error("Controller_brasilPrev.salvar----------------- ERRO AO INCLUIR REGISTRO: " + e.toString());
-			return new Response(0,e.getMessage());			
+			return new ResponseDto(0,e.getMessage());			
 		}
 	}
 	
 	/**
 	 * ATUALIZA REGISTRO
-	 * @param customer
+	 * @param customerDto
 	 * @return
 	 * @throws Exception
 	 * @throws Throwable
 	 */
 	@RequestMapping(value="/customer", method = RequestMethod.PUT, produces = "application/json")
-	public @ResponseBody Response update(@RequestBody Customer customer)  throws Exception, Throwable {
+	public @ResponseBody ResponseDto update(@RequestBody CustomerDto customerDto)  throws Exception, Throwable {
 
 		log.info("Controller_brasilPrev.update--------> ATUALIZAR USUARIO!");
 		
 		
 		try {			 
-			this.service_brasilPrev.updateCustomer(customer);	
-			return new Response(1,"Cliente atualizado com sucesso!"); 
+			this.service_brasilPrev.updateCustomer(customerDto);	
+			return new ResponseDto(1,"Cliente atualizado com sucesso!"); 
 		}catch(Exception e) { 
 			log.error("Controller_brasilPrev.update----------------- ERRO AO ATUALIZAR CLIENTE: " , e.toString());
-			return new Response(0,e.getMessage());
+			return new ResponseDto(0,e.getMessage());
 		}
 	}
 
@@ -80,7 +80,7 @@ public class ControllerBrasilPrev {
 	 * @throws Throwable
 	 */
 	@RequestMapping(value="/customer", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<SelectCustomer> select()  throws Exception, Throwable {
+	public @ResponseBody List<SelectCustomerDto> select()  throws Exception, Throwable {
 		
 		log.info("Controller_brasilPrev.select--------> LISTAR DE USUARIOS!");
 		try {			
@@ -99,7 +99,7 @@ public class ControllerBrasilPrev {
 	 * @throws Throwable
 	 */
 	@RequestMapping(value="/customer/{cpf}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody SelectCustomer selectById(@PathVariable("cpf") String cpf)  throws Exception, Throwable {
+	public @ResponseBody SelectCustomerDto selectById(@PathVariable("cpf") String cpf)  throws Exception, Throwable {
 		
 		log.info("Controller_brasilPrev.selectById--------> CONSULTAR CLIENTE!");
 		try {
@@ -119,7 +119,7 @@ public class ControllerBrasilPrev {
 	 * @throws Throwable
 	 */
 	@RequestMapping(value="/customer/{cpf}", method = RequestMethod.DELETE, produces = "application/json")
-	public @ResponseBody Response delete(@PathVariable("cpf") String cpf)  throws Exception, Throwable {
+	public @ResponseBody ResponseDto delete(@PathVariable("cpf") String cpf)  throws Exception, Throwable {
 		
 		log.info("UsuarioController.excluir--------> EXCLUIR USUARIO!");
 		
@@ -127,10 +127,10 @@ public class ControllerBrasilPrev {
 		 
 		try { 
 			service_brasilPrev.deleteCustomer(cpf);
-			return new Response(1, "Usuario excluido com sucesso!"); 
+			return new ResponseDto(1, "Usuario excluido com sucesso!"); 
 		}catch(Exception e) {
 			log.error("UsuarioController.excluir----------------- ERRO AO EXCLUIR CLIENTE POR ID: " + e.toString());
-			return new Response(0, e.getMessage());
+			return new ResponseDto(0, e.getMessage());
 		}
 	}		
 

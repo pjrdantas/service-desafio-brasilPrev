@@ -2,9 +2,9 @@ package br.com.brasil.prev.repository;
 
 import java.util.List;
 
-import br.com.brasil.prev.dto.Customer;
-import br.com.brasil.prev.dto.SelectCustomer;
-import br.com.brasil.prev.dto.UpdateAddress;
+import br.com.brasil.prev.dto.CustomerDto;
+import br.com.brasil.prev.dto.SelectCustomerDto;
+import br.com.brasil.prev.dto.UpdateAddressDto;
 
 public interface Repository_brasilPrev {
 
@@ -14,7 +14,7 @@ public interface Repository_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void addCustomer(SelectCustomer customer)  throws Exception, Throwable;
+	void addCustomer(SelectCustomerDto selectCustomerDto)  throws Exception, Throwable;
 	
 	/**
 	 * INCLUIR ENDEREÇO
@@ -22,15 +22,15 @@ public interface Repository_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void addAddress(SelectCustomer customer) throws Exception, Throwable;
+	void addAddress(SelectCustomerDto selectCustomerDto) throws Exception, Throwable;
 	
 	/**
 	 * ATUALIZA CLIENTE
-	 * @param customer
+	 * @param customerDto
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void updateCustomer(Customer customer)  throws Exception, Throwable;
+	void updateCustomer(CustomerDto customerDto)  throws Exception, Throwable;
 	
 	/**
 	 * ATUALIZA ENDEREÇO
@@ -38,7 +38,7 @@ public interface Repository_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void updateAddress(UpdateAddress updateAddress)  throws Exception, Throwable;
+	void updateAddressDto(UpdateAddressDto updateAddressDto)  throws Exception, Throwable;
 	
 	/**
 	 * LISTA TODOS OS CLIENTES
@@ -46,23 +46,23 @@ public interface Repository_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	List<SelectCustomer> getAllCustomer()  throws Exception, Throwable;
+	List<SelectCustomerDto> getAllCustomer()  throws Exception, Throwable;
 	
 	/**
 	 * CONSULTA CLIENTE POR CPF
-	 * @param cpf
+	 * @param customerCpfDto
 	 * @return
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	SelectCustomer getCustomerByCpf(String cpf)  throws Exception, Throwable;
+	SelectCustomerDto getCustomerByCpf(String customerCpfDto)  throws Exception, Throwable;
 	
 	/**
 	 * EXCLUSÃO DE CLIENTE POR CPF
-	 * @param cpf
+	 * @param customerCpfDto
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void deleteCustomer(String cpf) throws Exception, Throwable;
+	void deleteCustomer(String customerCpfDto) throws Exception, Throwable;
 
 }

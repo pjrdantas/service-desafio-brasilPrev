@@ -17,4 +17,12 @@ public class ClienteControllerTests {
 	void case1() throws Exception {
 	}
 
+	public MockMvc getMockMvc() {
+		return mockMvc;
+	}
+
+	public void setMockMvc(MockMvc mockMvc) {
+		this.mockMvc = mockMvc;
+	}
+
 }
