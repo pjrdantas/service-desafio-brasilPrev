@@ -14,9 +14,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.brasil.prev.dto.Customer;
-import br.com.brasil.prev.dto.SelectCustomer;
-import br.com.brasil.prev.dto.UpdateAddress;
+import br.com.brasil.prev.dto.CustomerDto;
+import br.com.brasil.prev.dto.SelectCustomerDto;
+import br.com.brasil.prev.dto.UpdateAddressDto;
 import br.com.brasil.prev.repository.Repository_brasilPrev;
 
 
@@ -30,7 +30,7 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Override
-	public void addCustomer(SelectCustomer customer) throws Exception, Throwable {
+	public void addCustomer(SelectCustomerDto customer) throws Exception, Throwable {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append("  INSERT INTO ");
@@ -42,8 +42,8 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 		
 		MapSqlParameterSource params = new MapSqlParameterSource()
 				.addValue("id", customer.getId())
-				.addValue("tbCustomerCpf", customer.getCpf())
-				.addValue("tbCustomerName", customer.getName());
+				.addValue("tbCustomerCpf", customer.getSelectCustomerCpfDto())
+				.addValue("tbCustomerName", customer.getSelectCustomerNameDto());
 				
 		try {
 			jdbcTemplate.update(sql.toString(), params);
@@ -54,7 +54,7 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	}
 
 	@Override
-	public void addAddress(SelectCustomer customer) throws Exception, Throwable {
+	public void addAddress(SelectCustomerDto customerDto) throws Exception, Throwable {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append("  INSERT INTO ");
@@ -69,20 +69,28 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 		sql.append(" ,tb_address_state");
 		sql.append(" ,tb_address_zip");
 		sql.append(" ,tb_address_type) ");
-		sql.append("  values (:id, :tbAddressCpf,  :tbAddressPublicPlace,  :tbAddressComplement, :tbAddressNumber, :tbAddressDistrict, :tbAddressCity, :tbAddressState,  :tbAddressZip, :tbAddressType )");
-				
+		sql.append("  values (:id,");
+		sql.append(" :tbAddressCpf,");
+		sql.append(" :tbAddressPublicPlace,");
+		sql.append(" :tbAddressComplement,");
+		sql.append(" :tbAddressNumber,");
+		sql.append(" :tbAddressDistrict,");
+		sql.append(" :tbAddressCity,");
+		sql.append(" :tbAddressState,");
+		sql.append(" :tbAddressZip,");
+		sql.append(" :tbAddressType )");
 		
 		MapSqlParameterSource params = new MapSqlParameterSource()
-				.addValue("id", customer.getId())
-				.addValue("tbAddressCpf", customer.getCpf())
-				.addValue("tbAddressPublicPlace", customer.getAddressPublicPlace())
-				.addValue("tbAddressComplement", customer.getAddressComplement())
-				.addValue("tbAddressNumber", customer.getAddressNumber())
-				.addValue("tbAddressDistrict", customer.getAddressDistrict())
-				.addValue("tbAddressCity", customer.getAddressCity())				
-				.addValue("tbAddressState", customer.getAddressState())
-				.addValue("tbAddressZip", customer.getAddressZip())
-				.addValue("tbAddressType", customer.getAddressType());
+				.addValue("id", customerDto.getId())
+				.addValue("tbAddressCpf", customerDto.getSelectCustomerCpfDto())
+				.addValue("tbAddressPublicPlace", customerDto.getSelectCustomerPublicPlaceDto())
+				.addValue("tbAddressComplement", customerDto.getSelectCustomerComplementDto())
+				.addValue("tbAddressNumber", customerDto.getSelectCustomerNumberDto())
+				.addValue("tbAddressDistrict", customerDto.getSelectCustomerDistrictDto())
+				.addValue("tbAddressCity", customerDto.getSelectCustomerCityDto())				
+				.addValue("tbAddressState", customerDto.getSelectCustomerStateDto())
+				.addValue("tbAddressZip", customerDto.getSelectCustomerZipDto())
+				.addValue("tbAddressType", customerDto.getSelectCustomerTypeDto());
 		try {
 			jdbcTemplate.update(sql.toString(), params);
 			log.info("RepositoryImpl_brasilPrev.addAddress--------> ENDEREÇO INCLUIDO COM SUCESSO!");
@@ -92,7 +100,7 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	}
 
 	@Override
-	public void updateCustomer(Customer customer) throws Exception, Throwable {
+	public void updateCustomer(CustomerDto customerDto) throws Exception, Throwable {
 
 		StringBuilder sql = new StringBuilder();
 		
@@ -103,9 +111,9 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 		sql.append(" WHERE id = :id");
 		
 		SqlParameterSource params = new MapSqlParameterSource()
-				.addValue("id", customer.getId())
-				.addValue("cpf", customer.getCpf())
-				.addValue("name", customer.getName());
+				.addValue("id", customerDto.getId())
+				.addValue("cpf", customerDto.getCustomerCpfDto())
+				.addValue("name", customerDto.getCustomerNameDto());
 				
 		try {
 			jdbcTemplate.update(sql.toString(), params);
@@ -116,7 +124,7 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	}
 
 	@Override
-	public void updateAddress(UpdateAddress updateAddress) throws Exception, Throwable {
+	public void updateAddressDto(UpdateAddressDto updateAddressDto) throws Exception, Throwable {
 
 		StringBuilder sql = new StringBuilder();
 		
@@ -128,16 +136,16 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 		sql.append(" WHERE id = :id");
 		
 		SqlParameterSource params = new MapSqlParameterSource()
-		.addValue("id", updateAddress.getId())
-		.addValue("tbAddressCity", updateAddress.getCity())
-		.addValue("tbAddressComplement", updateAddress.getComplement())
-		.addValue("tbAddressCpf", updateAddress.getCpf())
-		.addValue("tbAddressDistrict", updateAddress.getDistrict())
-		.addValue("tbAddressNumber", updateAddress.getNumber())
-		.addValue("tbAddressPublicPlace", updateAddress.getPublicPlace())
-		.addValue("tbaddressState", updateAddress.getState())
-		.addValue("addressType", updateAddress.getType())
-		.addValue("tbaddressZip", updateAddress.getZipCode());
+		.addValue("id", updateAddressDto.getId())
+		.addValue("tbAddressCity", updateAddressDto.getUpdateAddressCityDto())
+		.addValue("tbAddressComplement", updateAddressDto.getUpdateAddressComplementDto())
+		.addValue("tbAddressCpf", updateAddressDto.getUpdateAddressCpfDto())
+		.addValue("tbAddressDistrict", updateAddressDto.getUpdateAddressDistrictDto())
+		.addValue("tbAddressNumber", updateAddressDto.getUpdateAddressNumberDto())
+		.addValue("tbAddressPublicPlace", updateAddressDto.getUpdateAddressPublicPlaceDto())
+		.addValue("tbaddressState", updateAddressDto.getUpdateAddressStateDto())
+		.addValue("addressType", updateAddressDto.getUpdateAddressTypeDto())
+		.addValue("tbaddressZip", updateAddressDto.getUpdateAddressZipCodeDto());
 		try {
 			jdbcTemplate.update(sql.toString(), params);
 			log.info("RepositoryImpl_brasilPrev.updateAddress--------> ENDEREÇO ATUALIZADO COM SUCESSO!");
@@ -151,7 +159,7 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	 * LISTAR TODOS CLIENTES
 	 */
 	@Override
-	public List<SelectCustomer> getAllCustomer() throws Exception, Throwable {
+	public List<SelectCustomerDto> getAllCustomer() throws Exception, Throwable {
 
 		try {
 			StringBuilder sql = new StringBuilder(sqlSelectPrincipal).append(" ORDER BY t2.id; ");
@@ -165,18 +173,18 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 
 	/**
 	 * CONSULTA CLIENTE POR CPF
-	 * @param cpf
+	 * @param customerCpfDto
 	 * @return
 	 * @throws Exception
 	 * @throws Throwable
 	 */
 	@Override
-	public SelectCustomer getCustomerByCpf(String cpf) throws Exception, Throwable {
+	public SelectCustomerDto getCustomerByCpf(String customerCpfDto) throws Exception, Throwable {
 		
 		try {
 			StringBuilder sql = new StringBuilder(sqlSelectPrincipal);
 			sql.append(" WHERE tb_customer_cpf = :tbCustomerCpf ");
-			SqlParameterSource params = new MapSqlParameterSource().addValue("tbCustomerCpf", cpf);
+			SqlParameterSource params = new MapSqlParameterSource().addValue("tbCustomerCpf", customerCpfDto);
 			log.info("RepositoryImpl_brasilPrev.getCustomerByCpf--------> CLIENTE LOCALIZADO COM SUCESSO!!!");
 			return devolveObjeto(sql, params);
 		} catch (ParserException e) {
@@ -189,13 +197,13 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	 * EXCLUI CLIENTE POR CPF
 	 */
 	@Override
-	public void deleteCustomer(String cpf) throws Exception, Throwable {
+	public void deleteCustomer(String customerCpfDto) throws Exception, Throwable {
 
 		StringBuilder sql1 = new StringBuilder();
 		sql1.append(" DELETE FROM ");
 		sql1.append(" tb_customer ");
 		sql1.append(" WHERE tb_customer_cpf = :tbCustomerCpf");
-		SqlParameterSource params = new MapSqlParameterSource().addValue("tbCustomerCpf", cpf);
+		SqlParameterSource params = new MapSqlParameterSource().addValue("tbCustomerCpf", customerCpfDto);
 		try {
 			jdbcTemplate.update(sql1.toString(), params);
 			log.info("RepositoryImpl_brasilPrev.deleteCustomer--------> USUARIO EXCLUIDO COM SUCESSO!!!");
@@ -208,7 +216,7 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 		sql2.append(" DELETE FROM ");
 		sql2.append(" tb_address ");
 		sql2.append(" WHERE tb_address_cpf = :tbAddressCpf");
-		SqlParameterSource param = new MapSqlParameterSource().addValue("tbAddressCpf", cpf);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("tbAddressCpf", customerCpfDto);
 		try {
 			jdbcTemplate.update(sql2.toString(), param);
 			log.info("RepositoryImpl_brasilPrev.deleteCustomer--------> ENDEREÇO(S) EXCLUIDO COM SUCESSO!!!");
@@ -259,22 +267,22 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	private List<SelectCustomer> devolveListaObjetos(StringBuilder sql, SqlParameterSource params) throws Exception, Throwable {		
+	private List<SelectCustomerDto> devolveListaObjetos(StringBuilder sql, SqlParameterSource params) throws Exception, Throwable {		
 		return jdbcTemplate.query(sql.toString(), params, (rs, i) -> {
 			
-			SelectCustomer customer = new SelectCustomer();
+			SelectCustomerDto customer = new SelectCustomerDto();
 			
 			customer.setId(rs.getLong("id"));
-			customer.setCpf(rs.getString("tb_customer_cpf"));
-			customer.setName(rs.getString("tb_customer_name"));
-			customer.setAddressPublicPlace(rs.getString("tb_address_public_place"));
-			customer.setAddressComplement(rs.getString("tb_address_complement"));
-			customer.setAddressNumber(rs.getInt("tb_address_number"));
-			customer.setAddressDistrict(rs.getString("tb_address_district"));
-			customer.setAddressCity(rs.getString("tb_address_city"));
-			customer.setAddressState(rs.getString("tb_address_state"));
-			customer.setAddressZip(rs.getString("tb_address_zip"));
-			customer.setAddressType(rs.getString("tb_address_type"));			
+			customer.setSelectCustomerCpfDto(rs.getString("tb_customer_cpf"));
+			customer.setSelectCustomerNameDto(rs.getString("tb_customer_name"));
+			customer.setSelectCustomerPublicPlaceDto(rs.getString("tb_address_public_place"));
+			customer.setSelectCustomerComplementDto(rs.getString("tb_address_complement"));
+			customer.setSelectCustomerNumberDto(rs.getInt("tb_address_number"));
+			customer.setSelectCustomerDistrictDto(rs.getString("tb_address_district"));
+			customer.setSelectCustomerCityDto(rs.getString("tb_address_city"));
+			customer.setSelectCustomerStateDto(rs.getString("tb_address_state"));
+			customer.setSelectCustomerZipDto(rs.getString("tb_address_zip"));
+			customer.setSelectCustomerTypeDto(rs.getString("tb_address_type"));			
 			return customer;
 		});	
 	}
@@ -288,23 +296,23 @@ public class RepositoryImpl_brasilPrev implements Repository_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	private SelectCustomer devolveObjeto(StringBuilder sql, SqlParameterSource params) throws Exception, Throwable {
+	private SelectCustomerDto devolveObjeto(StringBuilder sql, SqlParameterSource params) throws Exception, Throwable {
 			return jdbcTemplate.queryForObject(sql.toString(), params, (rs, i) -> {
 				
-				SelectCustomer customer = new SelectCustomer();
+				SelectCustomerDto selectCustomerDto = new SelectCustomerDto();
 				
-				customer.setId(rs.getLong("id"));
-				customer.setCpf(rs.getString("tb_customer_cpf"));
-				customer.setName(rs.getString("tb_customer_name"));
-				customer.setAddressPublicPlace(rs.getString("tb_address_public_place"));
-				customer.setAddressComplement(rs.getString("tb_address_complement"));
-				customer.setAddressNumber(rs.getInt("tb_address_number"));
-				customer.setAddressDistrict(rs.getString("tb_address_district"));
-				customer.setAddressCity(rs.getString("tb_address_city"));
-				customer.setAddressState(rs.getString("tb_address_state"));
-				customer.setAddressZip(rs.getString("tb_address_zip"));
-				customer.setAddressType(rs.getString("tb_address_type"));			
-				return customer;
+				selectCustomerDto.setId(rs.getLong("id"));
+				selectCustomerDto.setSelectCustomerCpfDto(rs.getString("tb_customer_cpf"));
+				selectCustomerDto.setSelectCustomerNameDto(rs.getString("tb_customer_name"));
+				selectCustomerDto.setSelectCustomerPublicPlaceDto(rs.getString("tb_address_public_place"));
+				selectCustomerDto.setSelectCustomerComplementDto(rs.getString("tb_address_complement"));
+				selectCustomerDto.setSelectCustomerNumberDto(rs.getInt("tb_address_number"));
+				selectCustomerDto.setSelectCustomerDistrictDto(rs.getString("tb_address_district"));
+				selectCustomerDto.setSelectCustomerCityDto(rs.getString("tb_address_city"));
+				selectCustomerDto.setSelectCustomerStateDto(rs.getString("tb_address_state"));
+				selectCustomerDto.setSelectCustomerZipDto(rs.getString("tb_address_zip"));
+				selectCustomerDto.setSelectCustomerTypeDto(rs.getString("tb_address_type"));			
+				return selectCustomerDto;
 			});
 		}
 

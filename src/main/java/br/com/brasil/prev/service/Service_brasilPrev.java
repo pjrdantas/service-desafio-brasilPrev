@@ -3,8 +3,8 @@ package br.com.brasil.prev.service;
 import java.util.List;
 
 
-import br.com.brasil.prev.dto.Customer;
-import br.com.brasil.prev.dto.SelectCustomer;
+import br.com.brasil.prev.dto.CustomerDto;
+import br.com.brasil.prev.dto.SelectCustomerDto;
 
 public interface Service_brasilPrev {
 	
@@ -14,7 +14,7 @@ public interface Service_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void addACustomer(SelectCustomer customer)   throws Exception, Throwable;
+	void addACustomer(SelectCustomerDto selectCustomerDto)   throws Exception, Throwable;
 	
 	/**
 	 * METODO PARA ATUALIZAÇÃO DO REGISTRO
@@ -22,7 +22,7 @@ public interface Service_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	void updateCustomer(Customer customer)   throws Exception, Throwable;
+	void updateCustomer(CustomerDto customerDto)   throws Exception, Throwable;
 
 	/**
 	 * METODO PARA LISTAR TODOS OS REGISTROS
@@ -30,7 +30,7 @@ public interface Service_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	List<SelectCustomer> getAllCustomer()  throws Exception, Throwable;
+	List<SelectCustomerDto> getAllCustomer()  throws Exception, Throwable;
 	
 	/**
 	 * METODO PARA CONSULTAR REGISTRO POR ID
@@ -39,8 +39,8 @@ public interface Service_brasilPrev {
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	SelectCustomer getCustomerByCpf(String cpf) throws Exception, Throwable;
+	SelectCustomerDto getCustomerByCpf(String customerCpfDto) throws Exception, Throwable;
 	
 	
-	void deleteCustomer(String cpf) throws Exception, Throwable;
+	void deleteCustomer(String customerCpfDto) throws Exception, Throwable;
 }

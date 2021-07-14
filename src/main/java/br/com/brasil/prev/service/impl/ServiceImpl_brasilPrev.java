@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.brasil.prev.dto.Address;
-import br.com.brasil.prev.dto.Customer;
-import br.com.brasil.prev.dto.SelectCustomer;
-import br.com.brasil.prev.dto.UpdateAddress;
+import br.com.brasil.prev.dto.AddressDto;
+import br.com.brasil.prev.dto.CustomerDto;
+import br.com.brasil.prev.dto.SelectCustomerDto;
+import br.com.brasil.prev.dto.UpdateAddressDto;
 import br.com.brasil.prev.repository.Repository_brasilPrev;
 import br.com.brasil.prev.service.Service_brasilPrev;
 
@@ -24,20 +24,19 @@ public class ServiceImpl_brasilPrev implements Service_brasilPrev {
 	@Autowired
 	private Repository_brasilPrev repository_brasilPrev;
 	
-	private List<Address> listReciverAddress;
+	private List<AddressDto> listReciverAddress;
 	
-	private UpdateAddress updateAddress = new UpdateAddress();
+	private UpdateAddressDto updateAddressDto = new UpdateAddressDto();
 
-	private SelectCustomer obj;
 
 	/**
 	 * INCLUIR CLIENTE
 	 */
 	@Override
-	public void addACustomer(SelectCustomer customer) throws Exception, Throwable {
+	public void addACustomer(SelectCustomerDto selectCustomerDto) throws Exception, Throwable {
 		
-		repository_brasilPrev.addCustomer(customer);
-		repository_brasilPrev.addAddress(customer);		
+		repository_brasilPrev.addCustomer(selectCustomerDto);
+		repository_brasilPrev.addAddress(selectCustomerDto);		
 					
 	}
 	
@@ -46,31 +45,30 @@ public class ServiceImpl_brasilPrev implements Service_brasilPrev {
 	 * ATUALIZA CLIENTE
 	 */
 	@Override
-	public void updateCustomer(Customer customer) throws Exception, Throwable {
-		log.info("ATUALIZANDO REGISTRO - Customer");		
+	public void updateCustomer(CustomerDto customerDto) throws Exception, Throwable {
+		log.info("ATUALIZANDO REGISTRO - CustomerDto");		
 		
 		/**
 		 * ATUALIZA O CLIENTE
 		 */
 
 				
-		listReciverAddress = customer.getAddress();
+		listReciverAddress = customerDto.getAddress();
 		
-		for (Address address : listReciverAddress) {
-			updateAddress.setPublicPlace(address.getPublicPlace());
-			updateAddress.setComplement(address.getComplement());
-			updateAddress.setNumber(address.getNumber());
-			updateAddress.setDistrict(address.getDistrict());
-			updateAddress.setCity(address.getCity());
-			updateAddress.setZipCode(address.getZipCode());
-			updateAddress.setType(address.getZipCode());
-			updateAddress.setCpf(address.getCpf());
+		for (AddressDto addressDto : listReciverAddress) {
+			updateAddressDto.setUpdateAddressPublicPlaceDto(addressDto.getAddressPublicPlaceDto());
+			updateAddressDto.setUpdateAddressComplementDto(addressDto.getAddressComplementDto());
+			updateAddressDto.setUpdateAddressNumberDto(addressDto.getAddressNumberDto());
+			updateAddressDto.setUpdateAddressDistrictDto(addressDto.getAddressDistrictDto());
+			updateAddressDto.setUpdateAddressCityDto(addressDto.getAddressCityDto());
+			updateAddressDto.setUpdateAddressZipCodeDto(addressDto.getAddressZipCodeDto());
+			updateAddressDto.setUpdateAddressTypeDto(addressDto.getAddressZipCodeDto());
+			updateAddressDto.setUpdateAddressCpfDto(addressDto.getAddressCpfDto());
 			/**
 			 * ATUALIZA O ENDEREÇO
 			 */
-			this.repository_brasilPrev.updateAddress(updateAddress);
-		}	
-		
+			this.repository_brasilPrev.updateAddressDto(updateAddressDto);
+		}			
 	}
 
 
@@ -78,7 +76,7 @@ public class ServiceImpl_brasilPrev implements Service_brasilPrev {
      * LISTA TODOS CLIENTES
      */
 	@Override
-	public List<SelectCustomer> getAllCustomer() throws Exception, Throwable {
+	public List<SelectCustomerDto> getAllCustomer() throws Exception, Throwable {
 		return repository_brasilPrev.getAllCustomer();
 	}
 
@@ -87,8 +85,8 @@ public class ServiceImpl_brasilPrev implements Service_brasilPrev {
 	 * CONSULTA CLIENTE POR CPF
 	 */
 	@Override
-	public SelectCustomer getCustomerByCpf(String cpf) throws Exception, Throwable {
-		SelectCustomer obj = repository_brasilPrev.getCustomerByCpf(cpf);
+	public SelectCustomerDto getCustomerByCpf(String customerCpfDto) throws Exception, Throwable {
+		SelectCustomerDto obj = repository_brasilPrev.getCustomerByCpf(customerCpfDto);
 		
 		return obj;
 	}
@@ -98,26 +96,9 @@ public class ServiceImpl_brasilPrev implements Service_brasilPrev {
 	 * EXCLUI CLIENTE POR CPF
 	 */
 	@Override
-	public void deleteCustomer(String cpf) throws Exception, Throwable {
-		repository_brasilPrev.deleteCustomer(cpf);
+	public void deleteCustomer(String customerCpfDto) throws Exception, Throwable {
+		repository_brasilPrev.deleteCustomer(customerCpfDto);
 		
-	}
-
-
-	public SelectCustomer getObj() {
-		return obj;
-	}
-
-
-	public void setObj(SelectCustomer obj) {
-		this.obj = obj;
-	}
-
-
-
-
-
-	
-	
+	}	
 	
 }
